@@ -1,30 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Support Mariano - Street Music</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Support Mariano - Street Music / Apoie Mariano - Música de Rua</title>
+  <style>
+    :root{--bg:#f7f7f8;--card:#ffffff;--accent:#0b3d91;--muted:#6b6b6b}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:var(--bg); color:#111}
+    .wrap{max-width:880px;margin:24px auto;padding:18px}
+    .card{background:var(--card);border-radius:12px;box-shadow:0 10px 30px rgba(10,10,10,0.08);padding:20px}
+    h1{margin:0 0 6px;font-size:22px}
+    p.lead{margin:0 0 12px;color:var(--muted)}
+    .profile{display:flex;gap:12px;align-items:center}
+    .avatar{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#5a3ebf);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:22px}
+    .info{flex:1}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;font-weight:600;margin-right:8px}
+    .btn.secondary{background:transparent;border:1px solid #e6e6e6;color:#111}
+    .section{margin-top:16px}
+    .amounts{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .amounts button{padding:10px 12px;border-radius:10px;border:1px solid #e9e9e9;background:#fff;cursor:pointer}
+    .qr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+    .qr-card{background:#fff;padding:10px;border-radius:10px;text-align:center}
+    .small{font-size:13px;color:var(--muted)}
+    footer{margin-top:18px;text-align:center;font-size:13px;color:var(--muted)}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5)}
+    .modal.active{display:flex}
+    .modal .box{background:white;padding:18px;border-radius:12px;max-width:520px;width:92%}
+    @media(max-width:720px){.qr-grid{grid-template-columns:repeat(2,1fr)}}
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎤 Support Mariano</h1>
-    <p>Choose an amount to donate / Escolhe um valor para doar</p>
-
-    <div class="buttons">
-      <button onclick="generateQR(2)">€2</button>
-      <button onclick="generateQR(5)">€5</button>
-      <button onclick="generateQR(10)">€10</button>
+  <div class="wrap card">
+    <div class="profile">
+      <div class="avatar">M</div>
+      <div class="info">
+        <h1>Support Mariano — Apoie Mariano</h1>
+        <p class="lead">Scan to follow on Instagram and donate easily / Escaneie para seguir no Instagram e doar facilmente</p>
+        <div>
+          <a id="followBtn" class="btn" href="https://instagram.com/marianobustoss" target="_blank">Follow on Instagram / Seguir no Instagram</a>
+          <button id="copyIbanBtn" class="btn secondary">Copy IBAN / Copiar IBAN</button>
+        </div>
+      </div>
     </div>
 
-    <div class="custom">
-      <input type="number" id="customAmount" placeholder="Other amount / Outro valor"/>
-      <button onclick="generateCustomQR()">Generate QR</button>
+    <div class="section">
+      <h3>Quick donation / Doação rápida</h3>
+      <p class="small">Tap a preset amount to open the SEPA transfer QR, or scan the corresponding QR below. / Toque un valor para abrir el QR SEPA, o escanee el QR correspondiente abajo.</p>
+
+      <div class="amounts" id="amounts">
+        <button data-amount="2">€2</button>
+        <button data-amount="5">€5</button>
+        <button data-amount="10">€10</button>
+        <button data-amount="custom">Custom amount / Valor livre</button>
+      </div>
+
+      <div class="qr-grid" id="qrGrid">
+        <div class="qr-card"><div class="small">€2</div><img id="qr2" src="qr-2.png" alt="QR 2 EUR" /></div>
+        <div class="qr-card"><div class="small">€5</div><img id="qr5" src="qr-5.png" alt="QR 5 EUR" /></div>
+        <div class="qr-card"><div class="small">€10</div><img id="qr10" src="qr-10.png" alt="QR 10 EUR" /></div>
+        <div class="qr-card"><div class="small">Custom / Livre</div><img id="qrFree" src="qr-free.png" alt="QR free amount" /></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <a id="paypalBtn" class="btn" href="#" style="display:none">Pay with PayPal / Pagar com PayPal</a>
+      </div>
     </div>
 
-    <div id="qrContainer"></div>
+    <div class="section">
+      <h3>Account details / Detalhes da conta</h3>
+      <p class="small">If the banking app cannot read the QR, copy these details manually. / Se o app não reconhecer o QR, copie os dados manualmente.</p>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <div><strong>IBAN</strong></div>
+        <div id="ibanText" style="font-family:monospace;padding:8px 10px;border-radius:8px;background:#f3f4f6">DE07 1001 1001 2623 1365 44</div>
+        <button id="copyIbanInline" class="btn secondary" style="margin-left:8px">Copy</button>
+      </div>
+    </div>
+
+    <footer>
+      <div class="small">Made with ❤️ — Support street music / Feito com ❤️ — Apoie a música de rua</div>
+    </footer>
   </div>
 
-  <script src="script.js"></script>
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="box" id="modalBox"></div>
+  </div>
+
+  <script>
+    const CONFIG = {
+      name: "Mariano Bustos",
+      iban_display: "DE07 1001 1001 2623 1365 44",
+      iban_payload: "DE07100110012623136544",
+      qrFiles: {"2":"qr-2.png","5":"qr-5.png","10":"qr-10.png","free":"qr-free.png"}
+    };
+
+    // Copy IBAN
+    document.getElementById('copyIbanBtn').addEventListener('click', copyIban);
+    document.getElementById('copyIbanInline').addEventListener('click', copyIban);
+    function copyIban(e){ e && e.preventDefault(); navigator.clipboard.writeText(CONFIG.iban_display).then(()=>{ alert('IBAN copied to clipboard / IBAN copiado ao clipboard'); }); }
+
+    // Modal
+    function showModal(html){ const box = document.getElementById('modalBox'); box.innerHTML = html; document.getElementById('modal').classList.add('active'); document.getElementById('modal').setAttribute('aria-hidden','false'); }
+    function closeModal(){ document.getElementById('modal').classList.remove('active'); document.getElementById('modal').setAttribute('aria-hidden','true'); }
+
+    document.getElementById('modal').addEventListener('click', (e)=>{ if(e.target.id==='modal') closeModal(); });
+
+    // Amount buttons: show large QR modal
+    document.getElementById('amounts').addEventListener('click', (e)=>{ const btn = e.target.closest('button'); if(!btn) return; const amt = btn.dataset.amount; if(amt==='custom'){ showModal('<h3>Custom amount</h3><p>Scan the "Custom" QR below or use the field to enter an amount in your bank app.</p><img src="' + CONFIG.qrFiles['free'] + '" style="max-width:100%">'); } else { showModal('<h3>Donate €' + amt + '</h3><img src="' + CONFIG.qrFiles[amt] + '" style="max-width:100%">'); } });
+
+    // Click on small QR to open modal with big QR
+    document.getElementById('qrGrid').addEventListener('click', (e)=>{ const img = e.target.closest('img'); if(!img) return; showModal('<img src="' + img.src + '" style="max-width:100%">'); });
+
+    // Preload images check - if any missing, show warning
+    window.addEventListener('load', ()=>{ const missing = []; const mapping = {'2':'qr2','5':'qr5','10':'qr10','free':'qrFree'}; for(const k of ['2','5','10','free']){ const el = document.getElementById(mapping[k]); if(!el){ missing.push(k); continue; } if(el.naturalWidth===0) missing.push(k); } if(missing.length){ showModal('<h3>Files missing</h3><p>Some QR images are not available on the server: ' + missing.join(', ') + '. Please upload qr-2.png, qr-5.png, qr-10.png, qr-free.png to your repository root.</p>'); } });
+  </script>
 </body>
 </html>
