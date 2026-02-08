@@ -3,115 +3,159 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Support Mariano - Street Music / Apoie Mariano - Música de Rua</title>
+  <title>MARIANO BUSTOS — Support / Apoie</title>
   <style>
-    :root{--bg:#f7f7f8;--card:#ffffff;--accent:#0b3d91;--muted:#6b6b6b}
-    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:var(--bg); color:#111}
-    .wrap{max-width:880px;margin:24px auto;padding:18px}
-    .card{background:var(--card);border-radius:12px;box-shadow:0 10px 30px rgba(10,10,10,0.08);padding:20px}
-    h1{margin:0 0 6px;font-size:22px}
-    p.lead{margin:0 0 12px;color:var(--muted)}
-    .profile{display:flex;gap:12px;align-items:center}
-    .avatar{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#5a3ebf);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:22px}
-    .info{flex:1}
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;font-weight:600;margin-right:8px}
-    .btn.secondary{background:transparent;border:1px solid #e6e6e6;color:#111}
-    .section{margin-top:16px}
-    .amounts{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-    .amounts button{padding:10px 12px;border-radius:10px;border:1px solid #e9e9e9;background:#fff;cursor:pointer}
-    .qr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-    .qr-card{background:#fff;padding:10px;border-radius:10px;text-align:center}
-    .small{font-size:13px;color:var(--muted)}
-    footer{margin-top:18px;text-align:center;font-size:13px;color:var(--muted)}
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5)}
-    .modal.active{display:flex}
-    .modal .box{background:white;padding:18px;border-radius:12px;max-width:520px;width:92%}
-    @media(max-width:720px){.qr-grid{grid-template-columns:repeat(2,1fr)}}
+    :root{
+      --bg:#0f172a;
+      --card:#0b1220;
+      --green:#16a34a;
+      --muted:#9aa4b2;
+      --text:#ffffff;
+    }
+    html,body{height:100%;margin:0;}
+    body{
+      background:var(--bg);
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--text);
+    }
+    .card{
+      background:var(--card);
+      width:92%;
+      max-width:420px;
+      border-radius:16px;
+      padding:28px;
+      box-shadow:0 12px 40px rgba(2,6,23,0.6);
+      text-align:center;
+    }
+    .logo{
+      width:96px;
+      height:96px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--green),#10b981);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0 auto 14px;
+      font-weight:800;
+      font-size:28px;
+      color:white;
+      letter-spacing:1px;
+    }
+    h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:1px;
+    }
+    .subtitle{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .insta-btn{
+      display:inline-block;
+      margin-top:18px;
+      padding:12px 22px;
+      border-radius:12px;
+      background:var(--green);
+      color:white;
+      text-decoration:none;
+      font-weight:700;
+    }
+    .insta-btn:active{transform:translateY(1px);}
+    .thanks{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+      text-align:center;
+    }
+    .iban-box{
+      margin-top:18px;
+      background:rgba(255,255,255,0.03);
+      padding:12px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .iban-left{ text-align:left; }
+    .iban-label{ font-size:12px;color:var(--muted); margin-bottom:6px;}
+    .iban-text{ font-family:monospace; font-size:14px; word-break:break-all;}
+    .copy-btn{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.08);
+      padding:8px 10px;
+      border-radius:10px;
+      color:white;
+      cursor:pointer;
+      font-weight:600;
+    }
+    footer{ margin-top:14px; font-size:12px; color:rgba(255,255,255,0.45); }
+    @media (max-width:420px){
+      .card{padding:20px}
+      .logo{width:80px;height:80px;font-size:24px}
+    }
   </style>
 </head>
 <body>
-  <div class="wrap card">
-    <div class="profile">
-      <div class="avatar">M</div>
-      <div class="info">
-        <h1>Support Mariano — Apoie Mariano</h1>
-        <p class="lead">Scan to follow on Instagram and donate easily / Escaneie para seguir no Instagram e doar facilmente</p>
-        <div>
-          <a id="followBtn" class="btn" href="https://instagram.com/marianobustoss" target="_blank">Follow on Instagram / Seguir no Instagram</a>
-          <button id="copyIbanBtn" class="btn secondary">Copy IBAN / Copiar IBAN</button>
-        </div>
+  <div class="card" role="main" aria-labelledby="main-title">
+    <div class="logo" aria-hidden="true">MB</div>
+
+    <h1 id="main-title">MARIANO BUSTOS</h1>
+    <div class="subtitle">Singer • Performer • Music Lover</div>
+
+    <a class="insta-btn" id="instagramLink" href="https://instagram.com/marianobustoss" target="_blank" rel="noopener noreferrer">
+      Follow on Instagram / Seguir no Instagram
+    </a>
+
+    <div class="thanks" aria-live="polite">
+      <div><strong>EN:</strong> Thank you for supporting my music — I hope you had a great experience.</div>
+      <div style="margin-top:6px"><strong>PT:</strong> Obrigado por apoiar a minha música — espero que tenha tido uma ótima experiência.</div>
+    </div>
+
+    <div class="iban-box" role="group" aria-label="IBAN">
+      <div class="iban-left">
+        <div class="iban-label">Bank transfer (SEPA) / Transferência bancária (SEPA)</div>
+        <div class="iban-text" id="ibanText">DE07 1001 1001 2623 1365 44</div>
+      </div>
+      <div>
+        <button class="copy-btn" id="copyBtn" aria-controls="ibanText">Copy IBAN / Copiar IBAN</button>
       </div>
     </div>
 
-    <div class="section">
-      <h3>Quick donation / Doação rápida</h3>
-      <p class="small">Tap a preset amount to open the SEPA transfer QR, or scan the corresponding QR below. / Toque un valor para abrir el QR SEPA, o escanee el QR correspondiente abajo.</p>
-
-      <div class="amounts" id="amounts">
-        <button data-amount="2">€2</button>
-        <button data-amount="5">€5</button>
-        <button data-amount="10">€10</button>
-        <button data-amount="custom">Custom amount / Valor livre</button>
-      </div>
-
-      <div class="qr-grid" id="qrGrid">
-        <div class="qr-card"><div class="small">€2</div><img id="qr2" src="qr-2.png" alt="QR 2 EUR" /></div>
-        <div class="qr-card"><div class="small">€5</div><img id="qr5" src="qr-5.png" alt="QR 5 EUR" /></div>
-        <div class="qr-card"><div class="small">€10</div><img id="qr10" src="qr-10.png" alt="QR 10 EUR" /></div>
-        <div class="qr-card"><div class="small">Custom / Livre</div><img id="qrFree" src="qr-free.png" alt="QR free amount" /></div>
-      </div>
-
-      <div style="margin-top:12px">
-        <a id="paypalBtn" class="btn" href="#" style="display:none">Pay with PayPal / Pagar com PayPal</a>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>Account details / Detalhes da conta</h3>
-      <p class="small">If the banking app cannot read the QR, copy these details manually. / Se o app não reconhecer o QR, copie os dados manualmente.</p>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-        <div><strong>IBAN</strong></div>
-        <div id="ibanText" style="font-family:monospace;padding:8px 10px;border-radius:8px;background:#f3f4f6">DE07 1001 1001 2623 1365 44</div>
-        <button id="copyIbanInline" class="btn secondary" style="margin-left:8px">Copy</button>
-      </div>
-    </div>
-
-    <footer>
-      <div class="small">Made with ❤️ — Support street music / Feito com ❤️ — Apoie a música de rua</div>
-    </footer>
-  </div>
-
-  <div id="modal" class="modal" role="dialog" aria-hidden="true">
-    <div class="box" id="modalBox"></div>
+    <footer>Made with ❤️ — Support street music / Apoie a música de rua</footer>
   </div>
 
   <script>
-    const CONFIG = {
-      name: "Mariano Bustos",
-      iban_display: "DE07 1001 1001 2623 1365 44",
-      iban_payload: "DE07100110012623136544",
-      qrFiles: {"2":"qr-2.png","5":"qr-5.png","10":"qr-10.png","free":"qr-free.png"}
-    };
-
-    // Copy IBAN
-    document.getElementById('copyIbanBtn').addEventListener('click', copyIban);
-    document.getElementById('copyIbanInline').addEventListener('click', copyIban);
-    function copyIban(e){ e && e.preventDefault(); navigator.clipboard.writeText(CONFIG.iban_display).then(()=>{ alert('IBAN copied to clipboard / IBAN copiado ao clipboard'); }); }
-
-    // Modal
-    function showModal(html){ const box = document.getElementById('modalBox'); box.innerHTML = html; document.getElementById('modal').classList.add('active'); document.getElementById('modal').setAttribute('aria-hidden','false'); }
-    function closeModal(){ document.getElementById('modal').classList.remove('active'); document.getElementById('modal').setAttribute('aria-hidden','true'); }
-
-    document.getElementById('modal').addEventListener('click', (e)=>{ if(e.target.id==='modal') closeModal(); });
-
-    // Amount buttons: show large QR modal
-    document.getElementById('amounts').addEventListener('click', (e)=>{ const btn = e.target.closest('button'); if(!btn) return; const amt = btn.dataset.amount; if(amt==='custom'){ showModal('<h3>Custom amount</h3><p>Scan the "Custom" QR below or use the field to enter an amount in your bank app.</p><img src="' + CONFIG.qrFiles['free'] + '" style="max-width:100%">'); } else { showModal('<h3>Donate €' + amt + '</h3><img src="' + CONFIG.qrFiles[amt] + '" style="max-width:100%">'); } });
-
-    // Click on small QR to open modal with big QR
-    document.getElementById('qrGrid').addEventListener('click', (e)=>{ const img = e.target.closest('img'); if(!img) return; showModal('<img src="' + img.src + '" style="max-width:100%">'); });
-
-    // Preload images check - if any missing, show warning
-    window.addEventListener('load', ()=>{ const missing = []; const mapping = {'2':'qr2','5':'qr5','10':'qr10','free':'qrFree'}; for(const k of ['2','5','10','free']){ const el = document.getElementById(mapping[k]); if(!el){ missing.push(k); continue; } if(el.naturalWidth===0) missing.push(k); } if(missing.length){ showModal('<h3>Files missing</h3><p>Some QR images are not available on the server: ' + missing.join(', ') + '. Please upload qr-2.png, qr-5.png, qr-10.png, qr-free.png to your repository root.</p>'); } });
+    // Copy IBAN with a small toast confirmation
+    (function(){
+      const copyBtn = document.getElementById('copyBtn');
+      copyBtn.addEventListener('click', function () {
+        const text = document.getElementById('ibanText').textContent.trim();
+        navigator.clipboard.writeText(text).then(function() {
+          const t = document.createElement('div');
+          t.textContent = 'IBAN copied to clipboard / IBAN copiado';
+          t.style.position = 'fixed';
+          t.style.left = '50%';
+          t.style.transform = 'translateX(-50%)';
+          t.style.bottom = '28px';
+          t.style.background = 'rgba(0,0,0,0.8)';
+          t.style.color = 'white';
+          t.style.padding = '10px 14px';
+          t.style.borderRadius = '10px';
+          t.style.fontSize = '14px';
+          t.style.zIndex = 9999;
+          document.body.appendChild(t);
+          setTimeout(()=>{ t.remove(); }, 1800);
+        }, function(){
+          alert('Could not copy IBAN. Please copy manually. / Não foi possível copiar o IBAN. Por favor copie manualmente.');
+        });
+      });
+    })();
   </script>
 </body>
 </html>
